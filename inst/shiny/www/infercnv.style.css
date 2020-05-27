@@ -1,0 +1,142 @@
+.tabbable > .nav > li[class=active] > a { background-color: White; 
+                                          color: black;}
+
+.tabbable > .nav > li > a               { background-color: #cfcfcf;  
+                                          color:black}
+body { padding-top: 50px; }
+
+blockquote {
+    font-size: 12px;
+    color: #6b6b6b;
+    background: #f9f9f9;
+        border-left: 10px solid #ccc;
+    margin: 1.5em 10px;
+    padding: 0.5em 10px;
+    
+}
+blockquote p {
+    display: inline;
+}
+
+
+
+.navbarMain > .navbar-header { 
+background-image: linear-gradient(#AD6363, white);
+
+}
+
+
+.navbarPageHome .navbar { 
+    background-color: black;
+    margin-left: -30px;
+    margin-right: -30px;
+}
+
+.navbarPageHome .navbar-dropdown { 
+    background-color: black;
+    color: black;
+    }
+
+.navbarPageHome .navbar-default .navbar-brand {
+                       color: #cc3f3e;
+}
+
+.navbar-dropdown { background-color: #262626;
+                           font-family: Arial;
+                           font-size: 13px;
+                           color: #FF0000; }
+
+.navbarPageHome .navbar-brand {
+                             color: #cc3f3f;
+                           }
+
+/* CSS for the home page section */
+.homeTabTitles h2 {
+    background-color: #637fad;
+    color: black; 
+    margin-left: -30px;
+    margin-right: -30px;
+    margin-top: -20px;
+    padding: 30px;
+    font-weight:bold;
+    text-align:center;
+    background-image: linear-gradient(#AD6363, white);
+}
+
+.homeTabTitles p {
+    font-weight:bold;
+    margin:auto;
+    color:black;
+    font-size:14px;
+}
+
+.homeTabTitles hr {
+    border-color:grey;
+}
+
+
+/* CSS for the ANalysis section */
+.analysisTabTitles h2 {
+    background-color: #637fad;
+    color: black; 
+    margin-left: -30px;
+    margin-right: -30px;
+    margin-top: -20px;
+    padding: 30px;
+    font-weight:bold;
+    text-align:center;
+    background-image: linear-gradient(#637fad, white);
+}
+
+.analysisTabTitles p {
+    font-weight:bold;
+    margin:auto;
+    color:black;
+    font-size:14px;
+}
+
+
+.analysisTabTitles hr {
+    border-color:grey;
+}
+
+
+
+
+
+
+/* Footer */
+.infercnv_footer{
+	background-color: #292c2f;
+	box-shadow: 0 1px 1px 0 rgba(0, 0, 0, 0.12);
+	box-sizing: border-box;
+
+	margin-left: -30px;
+    margin-right: -30px;
+	
+	text-align: center;
+	font: normal 10px;
+	color:  #8f9296;
+
+	padding: 40px;
+	margin-top: 80px;
+}
+
+
+.infercnv_footer .footer-company-name{
+	color:  #8f9296;
+	font-size: 14px;
+	margin: 0;
+}
+
+.infercnv_footer .footerLogo {
+  display: inline-block;
+  height: 25px;
+  width: 25px;
+
+  background-repeat: no-repeat;
+  background-size: 100% auto;
+  background-position: center center;
+
+  margin: 0 8px;
+}
