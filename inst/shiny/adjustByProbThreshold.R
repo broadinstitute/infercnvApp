@@ -209,7 +209,7 @@ adjustByProbThresholdUI <- function(id) {
                               By default this threshold is set to 0.5, given this any CNA region that has a posterior probability of being of a normal state greater than 0.5 is relabeled 
                                 as 'normal' and no longer considered an identified CNA region. 
                               A threshold of 0.5 was chosen for default as it tends to be more lenient threshold. 
-                              This threshold can be adjusted by setting the R BayesMaxPNormal argument to a value between 0 and 1 in InferCNV's analysis options. 
+                              This threshold can be adjusted by setting the Bayes Max Probability of Normal State argument to a value between 0 and 1 in InferCNV's analysis options. 
                               The Bayesian network latent mixture model can be completely avoided by setting R BayesMaxPNormal to 0.0")
                 )
             ),
