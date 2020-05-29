@@ -31,7 +31,10 @@ hmmAnalysisUI <- function(id) {
                   # HMM body 
                   fluidRow(
                       column(width = 10, offset = 1,
-                             tags$p("Infercnv currently supports two models for HMM-based CNV prediction, what we refer to as the i3 and i6 models.")
+                             tags$p(" If infercnv was ran with the HMM option, the HMM output figure showing CNV state predictions with appear. 
+                                    The following figure is a heatmap revealing CNV states as predicted by the Hidden Markov Model (HMM).
+                                    Infercnv currently supports two models for HMM-based CNV prediction, what we refer to as the i3 and i6 models.
+                                    All of these plots can be found in the output folder.")
                       )
                   ),
                   br(),br(),hr()
@@ -39,13 +42,15 @@ hmmAnalysisUI <- function(id) {
         
         fluidRow(
             # HMM state title and text 
-            column(width = 3, offset = 1,
-                   tags$h4( textOutput(outputId = ns("hmm_state_title"))),
-                   tags$p( textOutput(outputId = ns("hmm_state_text")))
+            column(width = 12, offset = 1,
+                   tags$h4( textOutput(outputId = ns("hmm_state_title")), 
+                            align = "center" ),
             ),
             # HMM image output 
-            column(width = 8,
-                   imageOutput(outputId = ns('hmm_mode_samples_png'))
+            column(width = 12,
+                   imageOutput(outputId = ns('hmm_mode_samples_png'),
+                               width    = "90%",
+                               height   = "90%")
             )
         )
     ) # TagList

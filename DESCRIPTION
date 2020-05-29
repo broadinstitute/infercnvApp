@@ -1,15 +1,26 @@
 Package: infercnvApp
+Type: Package
 Title: An R shiny app to Infer Copy Number Variation from Single-Cell RNA-Seq Data
 Version: 0.0.0.9000
 Date: 2020-05-27
-Authors@R: c(person("Maxwell", "Brown", email = "mbrown@broadinstitute.org", role = c("aut", "cre")), person("Christophe", "Georgescu", email = "cgeorges@broadinstitute.org", role = "aut"), person("Brian", "Haas", email = "bhaas@broadinstitute.org", role = "aut"))
+Authors@R: c(
+	person("Maxwell", "Brown", email = "mbrown@broadinstitute.org", role = c("aut", "cre")), 
+	person("Christophe", "Georgescu", email = "cgeorges@broadinstitute.org", role = "aut"), 
+	person("Brian", "Haas", email = "bhaas@broadinstitute.org", role = "aut"))
 Description: An R shiny app to run infercnv. Infercnv uses single-cell RNA-Seq expression to visualize CNV in cells.
 Depends: R(>= 3.6)
-License: `use_mit_license()`, `use_gpl3_license()` or friends to
-    pick a license
+License: BSD_3_clause + file LICENSE
 Encoding: UTF-8
 LazyData: true
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.1.0
-Imports: shiny, shinyalert, infercnv, shinyFiles, markdown
-URL: https://github.com/broadinstitute/infercnvApp
+Imports: 
+	shiny, 
+	shinyalert, 
+	infercnv, 
+	shinyFiles, 
+	markdown
+SystemRequirements: 
+	JAGS 4.x.y
+URL: https://github.com/broadinstitute/infercnvApp/wiki
+BugReports: https://github.com/broadinstitute/infercnvApp/issues

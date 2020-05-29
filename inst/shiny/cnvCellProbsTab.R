@@ -25,9 +25,9 @@ cnvCellProbsUI <- function(id) {
             
             fluidRow(
                 column(width = 10, offset = 1,
-                       tags$p( "By default InferCNV generates several posterior probability plots if HMM and Bayesian mixture model is used. 
-                               For each predicted CNV region, the posterior probability of the entire CNA region belonging to each of the 6 
-                               states is plotted in cnvProbs.pdf, along with posterior probability of each cell line belonging to each state 
+                       tags$p( "By default Infercnv generates several posterior probability plots if HMM and Bayesian mixture model is used. 
+                               For each predicted CNA region, the posterior probability of the entire CNA region belonging to each of the 6 
+                               or 3 states is plotted in cnvProbs.pdf, along with posterior probability of each cell line belonging to each state 
                                in cellProbs.pdf. More information can be found ",
                                HTML('<a href="https://github.com/broadinstitute/infercnv/wiki/Bayesian-Network-Latent-Mixture-Model">here</a>'),
                                "."
