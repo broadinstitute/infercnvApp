@@ -47,7 +47,7 @@ hmmAnalysisUI <- function(id) {
                             align = "center" ),
             ),
             # HMM image output 
-            column(width = 12, offset = 1,
+            column(width = 12,
                    imageOutput(outputId = ns('hmm_mode_samples_png'),
                                width    = "90%",
                                height   = "90%")
