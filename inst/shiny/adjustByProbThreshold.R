@@ -193,17 +193,17 @@ adjustByProbThresholdUI <- function(id) {
     tagList(
         
         tags$div( class = "analysisTabTitles",
-        # Title 
-            fluidRow(
-                tags$h2("Filtering CNA's based on probabilities", 
-                        align = "center",
-                        style = "font-weight:bold")
-            ),
-            
-            fluidRow(
-                column(1),
-                column(10,
-                       tags$p("CNA regions identified by the HMM are filtered out if the CNA region's posterior probability of being 
+                  # Title 
+                  fluidRow(
+                      tags$h2("Filtering CNA's based on probabilities", 
+                              align = "center",
+                              style = "font-weight:bold")
+                  ),
+                  
+                  fluidRow(
+                      column(1),
+                      column(10,
+                             tags$p("CNA regions identified by the HMM are filtered out if the CNA region's posterior probability of being 
                               normal exceeds a specified threshold. 
                               This combats possibility of miss identified CNAs by removing CNAs that are most likely to be normal and not a true CNA events. 
                               By default this threshold is set to 0.5, given this any CNA region that has a posterior probability of being of a normal state greater than 0.5 is relabeled 
@@ -211,9 +211,9 @@ adjustByProbThresholdUI <- function(id) {
                               A threshold of 0.5 was chosen for default as it tends to be more lenient threshold. 
                               This threshold can be adjusted by setting the Bayes Max Probability of Normal State argument to a value between 0 and 1 in InferCNV's analysis options. 
                               The Bayesian network latent mixture model can be completely avoided by setting R BayesMaxPNormal to 0.0")
-                )
-            ),
-            tags$hr()
+                      )
+                  ),
+                  tags$hr()
         ),
         
         # Slider and table 
@@ -273,126 +273,137 @@ adjustByProbThresholdUI <- function(id) {
 adjustByProbThreshold <- function(input, output,session,
                                   infercnv_inputs) {
     
-    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # Find and read object file
-    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # output path 
-    output_path <- infercnv_inputs$dir()
-    # path to the bayesian output directory
-    bayesian_output_path <- list.files(path       = output_path, 
-                                       pattern    = "BayesNetOutput*", 
-                                       all.files  = FALSE, 
-                                       full.names = TRUE)
-    # Bayesian output Object
-    bayesian_object_path <- list.files(path       = output_path, 
-                                       pattern    = ".hmm_mode-samples.mcmc_obj", 
-                                       all.files  = FALSE, 
-                                       full.names = TRUE)
-    # read in the object 
-    obj <- readRDS(bayesian_object_path)
+    # ~~~~~~~~~~~~~~~~~
+    #   user inputs    
+    # ~~~~~~~~~~~~~~~~~
+    # Seperate the user inputs into a friendly format 
+    vals <- lapply( infercnv_inputs, function(i){ i() } )
     
-    # HMM output Object
-    HMM_object_path <- list.files(path       = output_path, 
-                                       pattern    = "*hmm_mode-samples.infercnv_obj", 
-                                       all.files  = FALSE, 
-                                       full.names = TRUE)
-    # read in the HMM object 
-    hmm_obj <- readRDS(HMM_object_path)
-    hmm_states <- hmm_obj@expr.data
-    # obj@expr.data <- hmm_obj@expr.data
-    
-    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # Remove CNVs
-    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    sub_obj <- reactive({
-        obj@args$BayesMaxPNormal <- input$num
-        infercnv:::removeCNV(obj = obj, 
-                             HMM_states = hmm_states)
-    })
-    
-    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # TABLE
-    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # Generate the statistics table 
-    output$tableSummary <- renderTable(
-        {
-            SummaryTable(obj = obj, 
-                         filteredObj = sub_obj()[[1]])
-        }, 
-        caption = paste("\t Difference in CNV count after applying new threshold value."),
-        align = "l",
-        caption.placement = getOption("xtable.caption.placement", "top")
-    )
-    
-    
-    
-    
-    # Function for loading message 
-    shiny_busy <- function() {
-        # use &nbsp; for some alignment, if needed
-        HTML("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", paste0(
-            '<p> Plotting ...',
-            '<span data-display-if="$(&#39;html&#39;).attr(&#39;class&#39;)==&#39;shiny-busy&#39;">',
-            '<i class="fa fa-spinner fa-pulse fa-2x fa-fw" style="color:orange"></i>',
-            '</span>',
-            '</p>'
-        ))
+    # if infercnv was ran using HMM 
+    if ( vals$HMM == TRUE ){
+        
+        
+        #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # Find and read object file
+        #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # output path 
+        output_path <- infercnv_inputs$dir()
+        # path to the bayesian output directory
+        bayesian_output_path <- list.files(path       = output_path, 
+                                           pattern    = "BayesNetOutput*", 
+                                           all.files  = FALSE, 
+                                           full.names = TRUE)
+        # Bayesian output Object
+        bayesian_object_path <- list.files(path       = output_path, 
+                                           pattern    = ".hmm_mode-samples.mcmc_obj", 
+                                           all.files  = FALSE, 
+                                           full.names = TRUE)
+        # read in the object 
+        obj <- readRDS(bayesian_object_path)
+        
+        # HMM output Object
+        HMM_object_path <- list.files(path       = output_path, 
+                                      pattern    = "*hmm_mode-samples.infercnv_obj", 
+                                      all.files  = FALSE, 
+                                      full.names = TRUE)
+        # read in the HMM object 
+        hmm_obj <- readRDS(HMM_object_path)
+        hmm_states <- hmm_obj@expr.data
+        # obj@expr.data <- hmm_obj@expr.data
+        
+        #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # Remove CNVs
+        #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        sub_obj <- reactive({
+            obj@args$BayesMaxPNormal <- input$num
+            infercnv:::removeCNV(obj = obj, 
+                                 HMM_states = hmm_states)
+        })
+        
+        #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # TABLE
+        #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # Generate the statistics table 
+        output$tableSummary <- renderTable(
+            {
+                SummaryTable(obj = obj, 
+                             filteredObj = sub_obj()[[1]])
+            }, 
+            caption = paste("\t Difference in CNV count after applying new threshold value."),
+            align = "l",
+            caption.placement = getOption("xtable.caption.placement", "top")
+        )
+        
+        
+        
+        
+        # Function for loading message 
+        shiny_busy <- function() {
+            # use &nbsp; for some alignment, if needed
+            HTML("&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;", paste0(
+                '<p> Plotting ...',
+                '<span data-display-if="$(&#39;html&#39;).attr(&#39;class&#39;)==&#39;shiny-busy&#39;">',
+                '<i class="fa fa-spinner fa-pulse fa-2x fa-fw" style="color:orange"></i>',
+                '</span>',
+                '</p>'
+            ))
+        }
+        
+        #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # IMAGE GERNERATION
+        #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+        # Generate the CNV plots based on what button is clicked 
+        #   hmmStateButton   :  Plot the probablity of being normal 
+        #   probNormalButton :  Plot the probablity of being normal 
+        #
+        # Once the hmmStateButton button is pressed, proform the following actions
+        observeEvent(
+            input$hmmStateButton, # action button to wait for 
+            {
+                # Start the loading message 
+                showNotification(id = "loadingMessage",
+                                 ui = shiny_busy(),
+                                 duration = NULL)
+                
+                # set the new states after removing
+                hmm_obj@expr.data <- sub_obj()[[2]]
+                # now plot the new heatmap
+                run_HMM_plot( obj = sub_obj()[[1]],
+                              hmm_obj =  hmm_obj)
+                output$threshold_ploting <- renderImage(
+                    {
+                        # list is returned that has the file name 
+                        list(src    = file.path(bayesian_output_path,"test.png"),
+                             contentType = 'image/png',
+                             width  = "90%", 
+                             alt    = "HMM Plot")
+                    }
+                )
+                removeNotification(id="loadingMessage")
+            }
+        )
+        # Plot the probablity of being normal 
+        observeEvent(
+            input$probNormalButton,
+            {
+                # Start the loading message 
+                showNotification(id = "loadingMessage",
+                                 ui = shiny_busy(),
+                                 duration = NULL)
+                
+                
+                run_plotNormal( obj = sub_obj()[[1]] )
+                output$threshold_ploting <- renderImage(
+                    {
+                        # list is returned that has the file name 
+                        list(src    = file.path(bayesian_output_path,"test.png"),
+                             contentType = 'image/png',
+                             width  = "90%",
+                             alt    = "Probability Plot")
+                    }
+                )
+                removeNotification(id="loadingMessage")
+            }
+        )
     }
-    
-    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # IMAGE GERNERATION
-    #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    # Generate the CNV plots based on what button is clicked 
-    #   hmmStateButton   :  Plot the probablity of being normal 
-    #   probNormalButton :  Plot the probablity of being normal 
-    #
-    # Once the hmmStateButton button is pressed, proform the following actions
-    observeEvent(
-        input$hmmStateButton, # action button to wait for 
-        {
-            # Start the loading message 
-            showNotification(id = "loadingMessage",
-                          ui = shiny_busy(),
-                          duration = NULL)
-            
-            # set the new states after removing
-            hmm_obj@expr.data <- sub_obj()[[2]]
-            # now plot the new heatmap
-            run_HMM_plot( obj = sub_obj()[[1]],
-                          hmm_obj =  hmm_obj)
-            output$threshold_ploting <- renderImage(
-                {
-                    # list is returned that has the file name 
-                    list(src    = file.path(bayesian_output_path,"test.png"),
-                         contentType = 'image/png',
-                         width  = "90%", 
-                         alt    = "HMM Plot")
-                }
-            )
-            removeNotification(id="loadingMessage")
-        }
-    )
-    # Plot the probablity of being normal 
-    observeEvent(
-        input$probNormalButton,
-        {
-            # Start the loading message 
-            showNotification(id = "loadingMessage",
-                             ui = shiny_busy(),
-                             duration = NULL)
-            
-            
-            run_plotNormal( obj = sub_obj()[[1]] )
-            output$threshold_ploting <- renderImage(
-                {
-                    # list is returned that has the file name 
-                    list(src    = file.path(bayesian_output_path,"test.png"),
-                         contentType = 'image/png',
-                         width  = "90%",
-                         alt    = "Probability Plot")
-                }
-            )
-            removeNotification(id="loadingMessage")
-        }
-    )
 }

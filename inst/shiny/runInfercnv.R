@@ -221,6 +221,8 @@ runInfercnvUI <- function(id) {
                 tabPanel("Advanced Options",
                          column(width = 12,
                                 
+                                tags$br(),
+                                
                                 #--------------------- Smoothing params ---------------------
                                 wellPanel(
                                     
@@ -454,6 +456,8 @@ runInfercnvUI <- function(id) {
                 #~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
                 tabPanel("Misc",
                          column(width = 12,
+                                
+                                tags$br(),
 
 
 
@@ -697,8 +701,8 @@ runInfercnvInputs <- function(input, output, session){
                                 )
 
     # Display the output directory
-    global <- reactiveValues(datapath = getwd())
-    output$show_dir <- renderText({    global$datapath    })
+    global <- reactiveValues(datapath = "~")#getwd())
+    output$show_dir <- renderText({  global$datapath    })
 
     # what is returned by shinyFiles
     dir <- reactive(input$dir)
