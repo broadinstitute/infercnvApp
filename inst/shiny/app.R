@@ -93,7 +93,10 @@ ui <- tags$div(
                         ),
                         
                         tags$br(),tags$br(),
-                        
+                    
+
+                        # Run the module for infercnv analysis
+                        runInfercnvUI("running_infercnv"),
                         
                         # Create the button for running the infercnv analysis
                         actionButton(inputId = "run_infercnv",
@@ -101,9 +104,8 @@ ui <- tags$div(
                                      icon = icon("refresh", lib = "font-awesome"),
                                      width = '100%',
                                      style="color: #fff; background-color: #68D77B"),
-
-                        # Run the module for infercnv analysis
-                        runInfercnvUI("running_infercnv")
+                        
+                        tags$br(),tags$br(),tags$br()
 
                ),
 
