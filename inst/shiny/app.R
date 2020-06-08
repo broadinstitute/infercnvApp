@@ -237,7 +237,7 @@ server <- function(input,
         {
             # run the infercnv analysis
             if(!exists("infercnv_obj_1")){
-                print("no infercnv test")
+                print("no infercnv object")
 
                 insertUI(
                     # ID

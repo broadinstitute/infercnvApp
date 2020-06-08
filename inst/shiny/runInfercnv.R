@@ -18,10 +18,6 @@ runInfercnvUI <- function(id) {
         #-------------------------- Run Analysis tab --------------------------
 
         fluidRow(
-            alertMessage <-"",
-            tags$div(id = "runAlertMessage", alertMessage)),
-
-        fluidRow(
             tags$h2(tags$strong("Options for running analysis"), align = "center"),
             tags$br(),
             
@@ -665,7 +661,10 @@ runInfercnvUI <- function(id) {
                          )#  column
                 ) # tabPanel( "MISC"
             ),# tabsetPanel
-        )# fluid row
+        ), # fluid row
+        fluidRow(
+            alertMessage <-"",
+            tags$div(id = "runAlertMessage", alertMessage))
     )
 
 }
