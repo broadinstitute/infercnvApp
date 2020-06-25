@@ -19,7 +19,7 @@ source("cnvCellProbsTab.R")
 options(error = function() traceback(2))
 options(shiny.reactlog=TRUE)
 
-
+futile.logger::flog.appender(futile.logger::appender.console())
 
 
 
@@ -105,7 +105,15 @@ ui <- tags$div(
                                      width = '100%',
                                      style="color: #fff; background-color: #68D77B"),
                         
-                        tags$br(),tags$br(),tags$br()
+                        tags$br(),tags$br(),tags$br(),
+                        
+                        # Button to clear the output folder 
+                        actionButton(inputId = "clear_output",
+                                     label = "Clear Output",
+                                     icon = icon("refresh", lib = "font-awesome"),
+                                     width = '100%',
+                                     style="color: #fff; background-color: red"),
+                        tags$br(),tags$br(),tags$br(),
 
                ),
 
@@ -317,6 +325,48 @@ server <- function(input,
                                            imageUrl = "https://cdn.pixabay.com/photo/2017/02/12/21/29/false-2061131_960_720.png")
                 })
             }
+        }
+    )
+    
+    # Option to Clear the output folder
+    observeEvent(
+        # run infercnv button
+        input$clear_output,
+        {
+            # check to see if infercnv was ran 
+            if(!exists("infercnv_obj_2")){
+                insertUI(
+                    # ID
+                    selector = "#runAlertMessage",
+                    # Make a class so can remove the message
+                    ui = tags$div(
+                        class = "alert alert-danger alert-dismissible",
+                        shiny::HTML("<span class='fa fa-times fa-fw' aria-hidden='true'> </span> \
+                 No Analysis was ran \
+                 <button type='button' \
+                 class='close' data-dismiss='alert'>&times;</button>"))
+                )
+                
+            }else{
+                output_path <- infercnv_analysis_inputs$dir()
+                print(output_path)
+                print(file.exists(output_path))
+                unlink(x = output_path, recursive = TRUE)
+                futile.logger::flog.appender(futile.logger::appender.console())
+                
+                insertUI(
+                    # ID
+                    selector = "#runAlertMessage",
+                    # Make a class so can remove the message
+                    ui = tags$div(
+                        class = "alert alert-success alert-dismissible",
+                        shiny::HTML("<span class='fa fa-check fa-fw' aria-hidden='true'> \
+                 </span> Cleared Output Folder <button type='button' \
+                 class='close' data-dismiss='alert'>&times;</button>"))
+                )
+                
+            }
+                
         }
     )
 }
