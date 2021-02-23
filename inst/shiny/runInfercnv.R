@@ -350,9 +350,10 @@ runInfercnvUI <- function(id) {
                                     
                                     radioButtons(inputId  = ns("tumor_subcluster_partition_method"),
                                                  label    = tags$strong("Tumor Subcluster Partition Method"),
-                                                 choices  = list("Random Trees" = "random_trees",
-                                                                "qnorm" = "qnorm"),
-                                                 selected = "random_trees"),
+                                                 choices  = list("Leiden"       = "leiden",
+                                                                "Random Trees" = "random_trees",
+                                                                "qnorm"        = "qnorm"),
+                                                 selected = "leiden"),
                                     helpText("method for defining tumor subclusters. Options('random_trees', 'qnorm')
                                                     random_trees: (default) slow but best. Uses permutation statistics w/ tree construction.
                                                     qnorm: defines tree height based on the quantile defined by the tumor_subcluster_pval"),
@@ -946,7 +947,7 @@ runInfercnv <- function(input,
 
                   ## tumor subclustering options
                   analysis_mode = infercnv_inputs$analysis_mode(), #c('samples', 'subclusters', 'cells'), # for filtering and HMM
-                  tumor_subcluster_partition_method = infercnv_inputs$tumor_subcluster_partition_method(), #c('random_trees', 'qnorm', 'pheight', 'qgamma', 'shc'),
+                  tumor_subcluster_partition_method = infercnv_inputs$tumor_subcluster_partition_method(), #c('leiden', random_trees', 'qnorm', 'pheight', 'qgamma', 'shc'),
                   tumor_subcluster_pval = infercnv_inputs$tumor_subcluster_pval(), #0.1,
 
 
