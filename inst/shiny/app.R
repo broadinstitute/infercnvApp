@@ -319,7 +319,7 @@ server <- function(input,
                     )
                 },
                 error = function(e){
-                    print
+                    # print
                     shinyalert::shinyalert(title = "Error!",
                                            text = e$message,
                                            type = "error",
