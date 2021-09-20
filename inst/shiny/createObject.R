@@ -69,6 +69,10 @@ createObjectInputsUI <- function(id) {
                                              label = 'File Delimination',
                                              choices = c("TSV","CSV"),
                                              selected = "TSV"),
+                                 textInput(inputId = ns("ref_group_names"),
+                                           label = "Reference Group Names",
+                                           placeholder = "Cell1, Cell2...",
+                                           value = ''),
                         ),
 
                         # Example data option
@@ -108,15 +112,10 @@ createObjectInputsUI <- function(id) {
                 ),
 
                 wellPanel(
-                    textInput(inputId = ns("ref_group_names"),
-                              label = "Reference Group Names",
-                              placeholder = "Cell1, Cell2...",
-                              value = ''),
 
 
                     #---------- optional inputs ----------------
-                    tags$hr(),
-                    tags$hr(style="border-color: grey;"),
+                    #tags$hr(style="border-color: grey;"),
                     tags$h3("Optional inputs"),
 
                     numericInput(inputId = ns("max_cells_per_group"),
@@ -134,7 +133,7 @@ createObjectInputsUI <- function(id) {
                                         value = NULL)
                     ),
                     textInput(inputId = ns("chr_exclude"),
-                              label = "Reference Group Names",
+                              label = "Exclude Chromosomes",
                               placeholder = "chrX, chrY, chrM, ...",
                               value = 'chrX, chrY, chrM')
                 )
